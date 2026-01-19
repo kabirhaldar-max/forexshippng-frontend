@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Package, Plus, LogOut, Loader2, Edit } from "lucide-react";
 import UpdateStatusModal from "../components/UpdateStatusModal";
-import logo from '../assets/Forexshipping_logo.png'
+import logo from "../assets/Forexshipping_logo.png";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
@@ -16,11 +16,7 @@ export default function AdminDashboard() {
   const [showModal, setShowModal] = useState(false);
   const adminName = localStorage.getItem("admin_name");
 
-  useEffect(() => {
-    fetchOrders();
-  }, []);
-
-  const fetchOrders = useCallback( async () => {
+  const fetchOrders = useCallback(async () => {
     try {
       const token = localStorage.getItem("admin_token");
       const response = await axios.get(`${API}/orders`, {
@@ -37,7 +33,11 @@ export default function AdminDashboard() {
     } finally {
       setLoading(false);
     }
-  });
+  }, [navigate]);
+
+  useEffect(() => {
+    fetchOrders();
+  }, [fetchOrders]);
 
   const handleLogout = () => {
     localStorage.removeItem("admin_token");
@@ -77,19 +77,19 @@ export default function AdminDashboard() {
       {/* Header */}
       <header className="bg-white border-b-4 border-primary shadow-sm">
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <div className="flex-shrink-0 flex items-center gap-2">
-              <div className="">
-                <img src={logo} className='h-14' />
-              </div>
-              <div className="flex flex-col">
-                <span className="text-2xl font-black tracking-tighter text-slate-900 leading-none">
-                  FOREX<span className="text-blue-600">SHIPPING</span>
-                </span>
-                <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-slate-500">
-                  Global Freight Solutions
-                </span>
-              </div>
+          <div className="flex-shrink-0 flex items-center gap-2">
+            <div className="">
+              <img src={logo} className="h-14" />
             </div>
+            <div className="flex flex-col">
+              <span className="text-2xl font-black tracking-tighter text-slate-900 leading-none">
+                FOREX<span className="text-blue-600">SHIPPING</span>
+              </span>
+              <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-slate-500">
+                Global Freight Solutions
+              </span>
+            </div>
+          </div>
           <div className="flex items-center gap-4">
             <span className="text-sm font-medium">Welcome, {adminName}</span>
             <button
